@@ -11,4 +11,6 @@ router.post('/', controllerCart.addCart);
 
 router.put('/', authorization, controllerCart.updateCart);
 
+router.delete('/', controllerCart.deleteCart);
+
 module.exports = router;
