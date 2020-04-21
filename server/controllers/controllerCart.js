@@ -96,6 +96,21 @@ class controllerCart {
                 next(err);
             });
     }
+
+    static deleteCart (req, res, next) {
+        let CustomerId = req.CustomerId;
+        Cart.destroy({
+            where: {
+                CustomerId
+            }
+        })
+            .then((result) => {
+                res.status(200).json({message: "Successfully delete"});
+            })
+            .catch((err) => {
+                next(err);
+            });
+    }
 }
 
 module.exports = controllerCart;
