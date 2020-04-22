@@ -50,6 +50,9 @@ export default {
     computed: {
         carts: function() {
             return this.$store.state.carts;
+        },
+        islog: function() {
+            return this.$store.state.isLogged;
         }
     },
     methods: {
@@ -93,6 +96,13 @@ export default {
                         }
                     )
                 });
+        }
+    },
+    watch: {
+        islog: function(val, oldVal) {
+            if(val === false){
+                this.carts = [];
+            }
         }
     },
 }
