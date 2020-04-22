@@ -114,25 +114,40 @@ export default new Vuex.Store({
     addToCart({commit}, payload) {
       console.log('ini dari add to cart', payload)
       let quantity = 1;
+      let index = this.state.carts.findIndex(cart => cart.ProductId === payload.id);
+      let cond = false;
+      if (index === -1) {
+        if (quantity <= payload.stock) {
+          cond = true;
+        }
+      } else {
+        if ((this.state.carts[index].quantity+quantity) <= payload.stock) {
+          cond = true;
+        }
+      }
       return new Promise ((resolve, reject) => {
-        axios({
-          url: url + '/carts',
-          method: 'POST',
-          data: {
-            ProductId: payload,
-            quantity
-          },
-          headers: {
-            access_token
-          }
-        })
-          .then((result) => {
-            commit('UPDATE_CARTS', result.data);
-            resolve(`${result.data.Product.name} added to cart!`);
+        if (cond === false) {
+          reject('Stok terbatas!');
+        } else {
+          axios({
+            url: url + '/carts',
+            method: 'POST',
+            data: {
+              ProductId: payload.id,
+              quantity
+            },
+            headers: {
+              access_token
+            }
           })
-          .catch((err) => {
-            reject(err.response.data.message);
-          });
+            .then((result) => {
+              commit('UPDATE_CARTS', result.data);
+              resolve(`${result.data.Product.name} added to cart!`);
+            })
+            .catch((err) => {
+              reject(err.response.data.message);
+            });
+        }
       })
     },
     updateCart({commit}, payload) {
@@ -153,6 +168,20 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err.response.data.message);
         });
+    },
+    checkout({commit}, payload) {
+      let data = {
+        total: payload,
+        cart: []
+      }
+      this.state.carts.forEach(i => {
+        data.cart.push({
+          CartId: i.id,
+          ProductId: i.ProductId,
+          quantity: i.quantity
+        })
+      })
+      console.log('kirim ke server', data);
     }
   },
   modules: {

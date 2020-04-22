@@ -12,6 +12,8 @@ router.use('/products', routerProduct);
 
 router.use('/carts', routerCart);
 
+// router.use('/checkout', routerCheckout);
+
 router.use(errorHandler);
 
 module.exports = router;

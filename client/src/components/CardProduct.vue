@@ -1,15 +1,18 @@
 <template>
-    <div class="column is-2 cardProduct" @click.prevent="goDetail">
+    <div class="column is-2 cardProduct">
         <div class="inside">
-            <div class="headerCardProduct">
+            <div class="headerCardProduct" @click.prevent="goDetail">
                 <img :src="product.image_url" :alt="product.name">
             </div>
-            <div class="titleCardProduct">
+            <div class="titleCardProduct" @click.prevent="goDetail">
                 {{product.name}}
             </div>
             <div class="footerCardProduct">
-                <div class="price">
+                <div class="leftFooter" @click.prevent="goDetail">
                     {{formatPrice}}
+                    <div class="leftStock">
+                        stock: {{product.stock}}
+                    </div>
                 </div>
                 <div class="cartIcon" @click.prevent="btnAddToCart">
                     <font-awesome-icon icon="cart-plus" />
@@ -38,7 +41,7 @@ export default {
     },
     methods: {
         btnAddToCart(){
-            this.$store.dispatch('addToCart', this.product.id)
+            this.$store.dispatch('addToCart', this.product)
                 .then((result) => {
                     this.$swal(
                         {
@@ -88,6 +91,10 @@ export default {
     .footerCardProduct {
         display: flex;
         justify-content: space-between;
+        align-items: flex-end;
+    }
+    .leftFooter {
+        font-size: 0.8em;
     }
     .cartIcon {
         color: #ff6f6f;

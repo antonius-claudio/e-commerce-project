@@ -70,7 +70,7 @@ export default {
             this.total += payload;
         },
         btnCheckout(){
-            console.log('masuk checkout', this.total);
+            this.$store.dispatch('checkout', this.total);
         }
     },
 }
