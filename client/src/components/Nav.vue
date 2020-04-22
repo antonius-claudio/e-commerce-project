@@ -22,15 +22,15 @@
                 <div class="buttons">
                     <div v-if="$store.state.isLogged === false">
                         <router-link to="/register">
-                            <a class="button is-primary">
-                                <strong>Sign up</strong>
+                            <a class="button is-light">
+                                Sign up
                             </a>
                         </router-link>
                     </div>
                     <div v-if="$store.state.isLogged === false">
                         <router-link to="/login">
                             <a class="button is-light">
-                                Log in
+                                Sign in
                             </a>
                         </router-link>
                     </div>

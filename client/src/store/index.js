@@ -43,6 +43,30 @@ export default new Vuex.Store({
           reject(err.response.data.message);
         });
       })
+    },
+    login({commit}, payload){
+      return new Promise ((resolve, reject) => {
+        axios({
+          url: url + '/login',
+          method: 'POST',
+          data: {
+            email: payload.email,
+            password: payload.password
+          }
+        })
+          .then((result) => {
+            commit('SET_ISLOGGED', true);
+            localStorage.setItem('access_token', result.data.access_token);
+            localStorage.setItem('email', result.data.email);
+            localStorage.setItem('name', result.data.name);
+            localStorage.setItem('address', result.data.address);
+            localStorage.setItem('phone', result.data.phone);
+            resolve(`Hi, ${result.data.name}`);
+          })
+          .catch((err) => {
+            reject(err.response.data.message);
+          });
+      })
     }
   },
   modules: {

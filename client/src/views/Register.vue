@@ -1,5 +1,7 @@
 <template>
     <div>
+        <h1 class="title">Register</h1>
+        <hr>
         <section>
             <b-field label="Email">
                 <b-input v-model="email"></b-input>
@@ -19,7 +21,6 @@
                 <b-input v-model="phone"></b-input>
             </b-field>
             <b-button type="is-info"
-                icon-right="delete"
                 @click.prevent="btnRegister">
                 Sign Up
             </b-button>
