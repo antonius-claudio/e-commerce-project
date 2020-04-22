@@ -1,4 +1,4 @@
-const { Cart, Product, Customer } = require('../models');
+const { Cart, Product } = require('../models');
 const { Op } = require('../models').Sequelize;
 class controllerCart {
     static getCart (req, res, next) {
