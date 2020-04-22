@@ -26,7 +26,7 @@
                 <div class="leftend">
                     <h3 class="title">Total: {{formatPrice(total)}}</h3>
                 </div>
-                <div class="rightend" @click.prevent="btnCheckout">
+                <div class="rightend" @click.prevent="btnCheckout" v-if="total !== 0">
                     <b-button type="is-success">Checkout</b-button>
                 </div>
             </div>
@@ -70,7 +70,29 @@ export default {
             this.total += payload;
         },
         btnCheckout(){
-            this.$store.dispatch('checkout', this.total);
+            this.$store.dispatch('checkout', this.total)
+                .then((result) => {
+                    this.total = 0;
+                    this.$swal(
+                        {
+                            icon: 'success',
+                            title: 'Success Checkout!',
+                            text: `${result.message}`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }
+                    )
+                    this.$router.push('/');
+                })
+                .catch((err) => {
+                    this.$swal(
+                        {
+                            icon: 'error',
+                            title: 'Error!',
+                            text: `${err}`,
+                        }
+                    )
+                });
         }
     },
 }

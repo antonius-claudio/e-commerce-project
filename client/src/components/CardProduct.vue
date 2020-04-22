@@ -14,7 +14,7 @@
                         stock: {{product.stock}}
                     </div>
                 </div>
-                <div class="cartIcon" @click.prevent="btnAddToCart">
+                <div class="cartIcon" @click.prevent="btnAddToCart" v-if="$store.state.isLogged === true">
                     <font-awesome-icon icon="cart-plus" />
                 </div>
             </div>

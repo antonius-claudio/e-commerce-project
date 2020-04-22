@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="column is-4 is-offset-4 formSign">
         <h1 class="title">Register</h1>
         <hr>
         <section>
@@ -77,3 +77,10 @@ export default {
     },
 }
 </script>
+<style>
+    .formSign {
+        margin-top:5%;
+        background-color: #b9cae4;
+        border-radius: 5px;
+    }
+</style>

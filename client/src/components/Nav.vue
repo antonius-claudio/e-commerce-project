@@ -31,9 +31,11 @@
                             </a>
                         </router-link>
                     </div>
-                    <div v-if="$store.state.isLogged === true">
+                    <div v-if="$store.state.isLogged === true" class="icn">
                         <router-link to="/cart">
-                            <font-awesome-icon icon="cart-arrow-down" />
+                            <a class="button is-light">
+                                <font-awesome-icon icon="cart-arrow-down" />
+                            </a>
                         </router-link>
                     </div>
                     <div v-if="$store.state.isLogged === true">
@@ -51,6 +53,7 @@ export default {
     methods: {
         btnLogout() {
             this.$store.commit('SET_ISLOGGED', false);
+            this.$store.commit('CLEAR_CARTS');
             localStorage.removeItem('access_token');
             localStorage.removeItem('email');
             localStorage.removeItem('name');
@@ -61,3 +64,14 @@ export default {
     }
 }
 </script>
+<style>
+    .navbar {
+        background-color: #eadbc4;
+    }
+    .buttons div {
+        margin-left:10px;
+    }
+    .icn {
+        font-size:1.3em;
+    }
+</style>

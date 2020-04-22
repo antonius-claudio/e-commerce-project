@@ -30,6 +30,15 @@ export default new Vuex.Store({
         state.carts[index].quantity = payload.quantity;
         console.log('ini dari lama update carts', index)
       }
+    },
+    CLEAR_CARTS(state) {
+      state.carts = [];
+    },
+    UPDATE_PRODUCTS(state, payload) {
+      payload.forEach(i => {
+        let index = state.products.findIndex(product => product.id === i.ProductId);
+        state.products[index].stock = state.products[index].stock - i.quantity;
+      })
     }
   },
   actions: {
@@ -114,6 +123,10 @@ export default new Vuex.Store({
     addToCart({commit}, payload) {
       console.log('ini dari add to cart', payload)
       let quantity = 1;
+      if(payload.quantity){
+        quantity = payload.quantity;
+      }
+      console.log('quantityyyyyyyyyyyyyy', quantity)
       let index = this.state.carts.findIndex(cart => cart.ProductId === payload.id);
       let cond = false;
       if (index === -1) {
@@ -178,12 +191,46 @@ export default new Vuex.Store({
         data.cart.push({
           CartId: i.id,
           ProductId: i.ProductId,
+          name: i.Product.name,
+          price: i.Product.price,
+          stock: (Number(i.Product.stock)-Number(i.quantity)),
           quantity: i.quantity
         })
       })
-      console.log('kirim ke server', data);
+      return new Promise ((resolve, reject) => {
+        axios({
+          url: url + '/checkout',
+          method: 'POST',
+          headers: {
+            access_token
+          },
+          data: {
+            payload: JSON.stringify(data)
+          }
+        })
+          .then((result) => {
+            commit('UPDATE_PRODUCTS', data.cart);
+            commit('CLEAR_CARTS');
+            resolve(result.data);
+          })
+          .catch((err) => {
+            console.log('masuk err checkout')
+            reject(err.response.data.message);
+          });
+      })
     }
   },
   modules: {
   },
+  getters: {
+    getProducts: (state) => () => {
+        return state.products.filter(product => product.stock >= 1)
+    },
+    getProductById: (state) => (id) => {
+      return state.products.find(product => product.id === id)
+    },
+    getCartByIdProduct: (state) => (id) => {
+      return state.carts.find(cart => cart.ProductId === id)
+    },
+  }
 });

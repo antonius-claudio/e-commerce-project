@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="column is-4 is-offset-4 formSign">
         <h1 class="title">Login</h1>
         <hr>
         <section>

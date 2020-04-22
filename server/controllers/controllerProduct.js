@@ -6,7 +6,7 @@ class controllerProduct {
         Product.findAll({
             where: {
                 stock: {
-                    [Op.not]: 0
+                    [Op.gt]: 0
                 }
             }
         })

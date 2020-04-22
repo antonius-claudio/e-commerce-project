@@ -3,6 +3,8 @@ const controllerCustomer = require('../controllers/controllerCustomer');
 const errorHandler = require('../middlewares/errorHandler');
 const routerProduct = require('./routerProduct');
 const routerCart = require('./routerCart');
+const routerCheckout = require('./routerCheckout');
+
 
 router.post('/login', controllerCustomer.login);
 
@@ -12,7 +14,7 @@ router.use('/products', routerProduct);
 
 router.use('/carts', routerCart);
 
-// router.use('/checkout', routerCheckout);
+router.use('/checkout', routerCheckout);
 
 router.use(errorHandler);
 
