@@ -45,7 +45,12 @@ class controllerCart {
                                     }
                                 })
                                     .then((result) => {
-                                        Cart.findByPk(idFindOne)
+                                        Cart.findOne({
+                                            where: {
+                                                id: idFindOne
+                                            },
+                                            include: ['Product']
+                                        })
                                             .then((result) => {
                                                 res.status(200).json(result);
                                             })
@@ -59,7 +64,18 @@ class controllerCart {
                             } else {
                                 Cart.create(form)
                                     .then((result) => {
-                                        res.status(201).json(result);
+                                        Cart.findOne({
+                                            where: {
+                                                id: result.id
+                                            },
+                                            include: ['Product']
+                                        })
+                                            .then((result) => {
+                                                res.status(201).json(result);
+                                            })
+                                            .catch((err) => {
+                                                next(err);
+                                            });
                                     })
                                     .catch((err) => {
                                         next(err);

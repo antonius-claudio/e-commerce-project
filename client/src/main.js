@@ -6,6 +6,13 @@ import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCartArrowDown, faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+library.add(faCartPlus);
+library.add(faCartArrowDown);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.config.productionTip = false;
 

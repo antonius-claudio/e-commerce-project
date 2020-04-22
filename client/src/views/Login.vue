@@ -32,6 +32,7 @@ export default {
                 email: this.email,
                 password: this.password
             }
+            this.$store.dispatch('getCarts');
             this.$store.dispatch('login', form)
                 .then((result) => {
                     this.email = '';

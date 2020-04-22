@@ -35,6 +35,11 @@
                         </router-link>
                     </div>
                     <div v-if="$store.state.isLogged === true">
+                        <router-link to="/cart">
+                            <font-awesome-icon icon="cart-arrow-down" />
+                        </router-link>
+                    </div>
+                    <div v-if="$store.state.isLogged === true">
                         <a class="button is-danger" @click.prevent="btnLogout">
                             Log out
                         </a>
