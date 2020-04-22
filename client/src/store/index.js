@@ -134,6 +134,25 @@ export default new Vuex.Store({
             reject(err.response.data.message);
           });
       })
+    },
+    updateCart({commit}, payload) {
+      axios({
+        url: url + '/carts',
+        method: 'PUT',
+        data: {
+          id: payload.id,
+          quantity: payload.quantity
+        },
+        headers: {
+          access_token
+        }
+      })
+        .then((result) => {
+          commit('UPDATE_CARTS', result.data);
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+        });
     }
   },
   modules: {

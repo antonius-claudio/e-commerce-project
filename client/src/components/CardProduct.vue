@@ -1,18 +1,20 @@
 <template>
-    <div class="column is-2 cardProduct">
-        <div class="headerCardProduct">
-          <img :src="product.image_url" :alt="product.name">
-        </div>
-        <div class="titleCardProduct">
-          {{product.name}}
-        </div>
-        <div class="footerCardProduct">
-          <div class="price">
-            {{formatPrice}}
-          </div>
-          <div class="cartIcon" @click.prevent="btnAddToCart">
-            <font-awesome-icon icon="cart-plus" />
-          </div>
+    <div class="column is-2 cardProduct" @click.prevent="goDetail">
+        <div class="inside">
+            <div class="headerCardProduct">
+                <img :src="product.image_url" :alt="product.name">
+            </div>
+            <div class="titleCardProduct">
+                {{product.name}}
+            </div>
+            <div class="footerCardProduct">
+                <div class="price">
+                    {{formatPrice}}
+                </div>
+                <div class="cartIcon" @click.prevent="btnAddToCart">
+                    <font-awesome-icon icon="cart-plus" />
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -56,19 +58,32 @@ export default {
                         }
                     )
                 });
+        },
+        goDetail(){
+            this.$router.push(`/products/${this.product.id}`);
         }
     },
 }
 </script>
 <style>
-    .cardProduct {
+    .inside {
         background-color: #adecad8c;
+        padding: 10px;
+        box-shadow: 5px 6px #d6d6d6;
+    }
+    .cardProduct {
+        padding: 10px;
+    }
+    .cardProduct:hover {
+        transform: scale(1.1);
+        cursor: pointer;
     }
     .titleCardProduct {
         color: #484646;
         font-weight: bold;
         text-overflow: ellipsis;
         overflow: hidden;
+        border: 1px solid #fff;
     }
     .footerCardProduct {
         display: flex;
