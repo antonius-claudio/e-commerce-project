@@ -1,11 +1,12 @@
-const { Cart, Product } = require('../models');
+const { Cart, Product, Customer } = require('../models');
 const { Op } = require('../models').Sequelize;
 class controllerCart {
     static getCart (req, res, next) {
         Cart.findAll({
             where: {
                 CustomerId: req.CustomerId
-            }
+            },
+            include: ['Product']
         })
             .then((result) => {
                 res.status(200).json(result);
