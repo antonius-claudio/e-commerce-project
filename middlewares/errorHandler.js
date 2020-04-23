@@ -1,6 +1,6 @@
 function errorHandler(err, req, res, next) {
     let status = 500;
-    let message = ['Internal server error'];
+    let message = [`Internal server error, ${JSON.stringify(err)}`];
     if (err.errors) {
         status = 400;
         message = [];

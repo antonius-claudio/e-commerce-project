@@ -59,6 +59,7 @@ class controllerCustomer {
             })
                 .then((result) => {
                     if (result) {
+                        console.log('loginnnnn', result.email)
                         if (compare(form.password, result.password)) {
                             let access_token = sign({
                                 CustomerId: result.id,

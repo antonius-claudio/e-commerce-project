@@ -1,6 +1,7 @@
 const { Checkout } = require('../models');
 class controllerTransactions {
     static getAll(req, res, next) {
+        console.log('req.CustomerId ', req.CustomerId)
         let CustomerId = req.CustomerId;
         Checkout.findAll({
             where: {
