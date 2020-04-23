@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import { url } from '../utils';
 import axios from 'axios';
-const access_token = localStorage.getItem('access_token');
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -10,9 +9,13 @@ export default new Vuex.Store({
     isLogged: false,
     products: [],
     carts: [],
+    checkouts: [],
+    checkoutProducts: [],
+    access_token: null
   },
   mutations: {
     SET_ISLOGGED(state, n) {
+      state.access_token = localStorage.getItem('access_token');
       state.isLogged = n;
     },
     SET_PRODUCTS(state, payload) {
@@ -39,7 +42,19 @@ export default new Vuex.Store({
         let index = state.products.findIndex(product => product.id === i.ProductId);
         state.products[index].stock = state.products[index].stock - i.quantity;
       })
-    }
+    },
+    SET_CHECKOUTS(state, payload) {
+      state.checkouts = payload;
+    },
+    CLEAR_CHECKOUTS(state) {
+      state.checkouts = [];
+    },
+    SET_CHECKOUTPRODUCTS(state, payload) {
+      state.checkoutProducts = payload;
+    },
+    CLEAR_CHECKOUTPRODUCTS(state) {
+      state.checkoutProducts = [];
+    },
   },
   actions: {
     register({commit}, payload){
@@ -56,12 +71,12 @@ export default new Vuex.Store({
           }
         })
         .then((result) => {
-          commit('SET_ISLOGGED', true);
           localStorage.setItem('access_token', result.data.access_token);
           localStorage.setItem('email', result.data.email);
           localStorage.setItem('name', result.data.name);
           localStorage.setItem('address', result.data.address);
           localStorage.setItem('phone', result.data.phone);
+          commit('SET_ISLOGGED', true);
           resolve(`Hi, ${result.data.name}`);
         })
         .catch((err) => {
@@ -80,12 +95,12 @@ export default new Vuex.Store({
           }
         })
           .then((result) => {
-            commit('SET_ISLOGGED', true);
             localStorage.setItem('access_token', result.data.access_token);
             localStorage.setItem('email', result.data.email);
             localStorage.setItem('name', result.data.name);
             localStorage.setItem('address', result.data.address);
             localStorage.setItem('phone', result.data.phone);
+            commit('SET_ISLOGGED', true);
             resolve(`Hi, ${result.data.name}`);
           })
           .catch((err) => {
@@ -105,12 +120,12 @@ export default new Vuex.Store({
           console.log('Failed to get product from db');
         });
     },
-    getCarts({commit}) {
+    getCarts({commit, state}) {
       axios({
         url: url + '/carts',
         method: 'GET',
         headers: {
-          access_token
+          access_token: state.access_token
         }
       })
         .then((result) => {
@@ -120,7 +135,7 @@ export default new Vuex.Store({
           console.log('Failed to get cart from db');
         });
     },
-    addToCart({commit}, payload) {
+    addToCart({commit, state}, payload) {
       console.log('ini dari add to cart', payload)
       let quantity = 1;
       if(payload.quantity){
@@ -150,7 +165,7 @@ export default new Vuex.Store({
               quantity
             },
             headers: {
-              access_token
+              access_token : state.access_token
             }
           })
             .then((result) => {
@@ -163,7 +178,7 @@ export default new Vuex.Store({
         }
       })
     },
-    updateCart({commit}, payload) {
+    updateCart({commit, state}, payload) {
       axios({
         url: url + '/carts',
         method: 'PUT',
@@ -172,7 +187,7 @@ export default new Vuex.Store({
           quantity: payload.quantity
         },
         headers: {
-          access_token
+          access_token : state.access_token
         }
       })
         .then((result) => {
@@ -182,7 +197,7 @@ export default new Vuex.Store({
           console.log(err.response.data.message);
         });
     },
-    checkout({commit}, payload) {
+    checkout({commit, state}, payload) {
       let data = {
         total: payload,
         cart: []
@@ -202,7 +217,7 @@ export default new Vuex.Store({
           url: url + '/checkout',
           method: 'POST',
           headers: {
-            access_token
+            access_token : state.access_token
           },
           data: {
             payload: JSON.stringify(data)
@@ -218,6 +233,41 @@ export default new Vuex.Store({
             reject(err.response.data.message);
           });
       })
+    },
+    transactions({commit, state}) {
+      console.log('masuk transanction', state.access_token)
+      axios({
+        url : url + '/transactions',
+        method: 'GET',
+        headers: {
+          access_token : state.access_token
+        }
+      })
+        .then((result) => {
+        console.log('masuk theeen transanction')
+          commit('SET_CHECKOUTS', result.data);
+        })
+        .catch((err) => {
+          console.log('masuk catch transanction')
+          console.log(err.response.data.message);
+        });
+    },
+    transactionsDetail({commit, state}, payload) {
+      console.log('masuk store', payload)
+      axios({
+        url : url + `/transactions/${payload}`,
+        method: 'GET',
+        headers: {
+          access_token : state.access_token
+        }
+      })
+        .then((result) => {
+          console.log('suskes', result.data)
+          commit('SET_CHECKOUTPRODUCTS', result.data);
+        })
+        .catch((err) => {
+          console.log('err', err.response.data.message);
+        });
     }
   },
   modules: {
@@ -232,5 +282,12 @@ export default new Vuex.Store({
     getCartByIdProduct: (state) => (id) => {
       return state.carts.find(cart => cart.ProductId === id)
     },
-  }
+  },
+  // watch: {
+  //   isLogged: (val, oldVal) => {
+  //     if (val === true) {
+  //       dispatch('transactions');
+  //     }
+  //   }
+  // },
 });

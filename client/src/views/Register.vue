@@ -55,6 +55,7 @@ export default {
                     this.name = '';
                     this.address = '';
                     this.phone = '';
+                    this.$store.dispatch('transactions');
                     this.$swal(
                         {
                             icon: 'success',

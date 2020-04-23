@@ -9,6 +9,7 @@ class controllerCart {
             include: ['Product']
         })
             .then((result) => {
+                console.log('id cus-------------', req.CustomerEmail)
                 res.status(200).json(result);
             })
             .catch((err) => {

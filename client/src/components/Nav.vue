@@ -57,6 +57,8 @@ export default {
         btnLogout() {
             this.$store.commit('SET_ISLOGGED', false);
             this.$store.commit('CLEAR_CARTS');
+            this.$store.commit('CLEAR_CHECKOUTS');
+            this.$store.commit('CLEAR_CHECKOUTPRODUCTS');
             localStorage.removeItem('access_token');
             localStorage.removeItem('email');
             localStorage.removeItem('name');

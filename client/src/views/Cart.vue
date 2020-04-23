@@ -41,18 +41,32 @@ import ListCart from '../components/ListCart';
 export default {
     data() {
         return {
-            total: 0
         }
     },
     components: {
         ListCart
     },
     computed: {
+        total: function() {
+            let temp = 0;
+            this.carts.forEach(i => {
+                temp += (i.quantity * i.Product.price);
+            })
+            return temp;
+        },
         carts: function() {
+            console.log('carts computed', this.$store.state.carts)
             return this.$store.state.carts;
         },
-        islog: function() {
-            return this.$store.state.isLogged;
+        // islog: function() {
+        //     return this.$store.state.isLogged;
+        // }
+    },
+    created() {
+        if(localStorage.getItem('access_token')){
+            this.$store.dispatch('getCarts');
+        } else {
+            this.$router.push('/login');
         }
     },
     methods: {
@@ -70,7 +84,8 @@ export default {
             return `Rp ${temp},-`;
         },
         calculate: function(payload){
-            this.total += payload;
+
+            // this.total += payload;
         },
         btnCheckout(){
             this.$store.dispatch('checkout', this.total)
@@ -85,7 +100,8 @@ export default {
                             timer: 1500
                         }
                     )
-                    this.$router.push('/');
+                    this.$store.dispatch('transactions');
+                    this.$router.push('/transactions');
                 })
                 .catch((err) => {
                     this.$swal(
@@ -99,11 +115,11 @@ export default {
         }
     },
     watch: {
-        islog: function(val, oldVal) {
-            if(val === false){
-                this.carts = [];
-            }
-        }
+        // islog: function(val, oldVal) {
+        //     if(val === false){
+        //         this.carts = [];
+        //     }
+        // }
     },
 }
 </script>

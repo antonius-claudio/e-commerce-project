@@ -30,12 +30,16 @@ const routes = [
     path: '/cart',
     name: 'Cart',
     component: () => import('../views/Cart.vue'),
-  }
-  ,
+  },
   {
     path: '/transactions',
     name: 'Transactions',
     component: () => import('../views/Transactions.vue'),
+  },
+  {
+    path: '/transactions/:id',
+    name: 'TransactionsDetail',
+    component: () => import('../components/TransactionsDetail.vue')
   }
 ];
 

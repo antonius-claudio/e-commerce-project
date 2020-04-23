@@ -12,14 +12,12 @@ export default {
     Nav
   },
   created() {
-    isLog: {
       this.$store.dispatch('getAll');
       if(localStorage.getItem('access_token')){
-        this.$store.dispatch('getCarts');
+        this.$store.dispatch('transactions');
         this.$store.commit('SET_ISLOGGED', true);
         this.$router.push('/');
       }
-    }
   },
 }
 </script>

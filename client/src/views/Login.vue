@@ -37,6 +37,7 @@ export default {
                 .then((result) => {
                     this.email = '';
                     this.password = '';
+                    this.$store.dispatch('transactions');
                     this.$swal(
                         {
                             icon: 'success',
