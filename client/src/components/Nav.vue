@@ -12,7 +12,7 @@
             <b-navbar-item>
                 <router-link to="/">Home</router-link>
             </b-navbar-item>
-            <b-navbar-item>
+            <b-navbar-item v-if="$store.state.isLogged === true">
                 <router-link to="/transactions">Transactions</router-link>
             </b-navbar-item>
         </template>
