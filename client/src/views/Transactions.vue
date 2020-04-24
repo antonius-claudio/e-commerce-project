@@ -27,6 +27,11 @@ export default {
             // return this.$store.getters.getProducts();
         },
     },
+    created() {
+        if(this.$store.state.isLogged === false){
+            this.$router.push('/login');
+        }
+    },
 }
 </script>
 <style>

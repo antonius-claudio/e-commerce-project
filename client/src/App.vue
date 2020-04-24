@@ -14,8 +14,8 @@ export default {
   created() {
       this.$store.dispatch('getAll');
       if(localStorage.getItem('access_token')){
-        this.$store.dispatch('transactions');
         this.$store.commit('SET_ISLOGGED', true);
+        this.$store.dispatch('transactions');
         this.$router.push('/');
       }
   },

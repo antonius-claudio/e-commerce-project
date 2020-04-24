@@ -9,7 +9,7 @@
             </div>
             <div class="footerCardProduct">
                 <div class="leftFooter" @click.prevent="goDetail">
-                    {{formatPrice}}
+                    {{formatPrice(product.price)}}
                     <div class="leftStock">
                         stock: {{product.stock}}
                     </div>
@@ -25,8 +25,11 @@
 export default {
     props: ['product'],
     computed: {
-        formatPrice: function (){
-            let str = String(this.product.price);
+        
+    },
+    methods: {
+        formatPrice: function (text){
+            let str = String(text);
             let count = 1;
             let temp = '';
             for (let i = str.length; i > 0; i--) {
@@ -37,9 +40,7 @@ export default {
                 count++;
             }
             return `Rp ${temp},-`;
-        }
-    },
-    methods: {
+        },
         btnAddToCart(){
             this.$store.dispatch('addToCart', this.product)
                 .then((result) => {
