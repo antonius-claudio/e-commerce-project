@@ -2,6 +2,10 @@
 E-Commerce
 ---
 
+### Demo
+
+https://e-commerce-8a1e7.web.app/
+
 ## POST /register
 > Register new user
 
