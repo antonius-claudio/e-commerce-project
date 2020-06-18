@@ -2,9 +2,9 @@
 E-Commerce
 ---
 
-### Demo
+## Demo : https://e-commerce-8a1e7.web.app/
 
-https://e-commerce-8a1e7.web.app/
+## Server : https://nameless-springs-33895.herokuapp.com/
 
 ## POST /register
 > Register new user
